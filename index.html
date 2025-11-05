@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrist Aura | Luxury Timepieces</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Centralized Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body class="font-body">
+
+    <!-- Navbar: Uses Bootstrap dark theme with custom charcoal background and is sticky to the top -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-charcoal shadow-lg sticky-top" style="min-height: 80px;">
+        <div class="container-fluid mx-auto px-4 lg:px-8 max-w-7xl">
+
+            <!-- Logo / Brand Name -->
+            <a class="navbar-brand text-3xl font-heading" id="wristAura" href="home.html">
+                WRIST AURA
+            </a>
+
+            <!-- Mobile Menu Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Content (Links and Utility Icons) -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+                <!-- Main Navigation Links -->
+                <ul class="navbar-nav mx-auto me-lg-0 space-x-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- LINK UPDATED to jump to Featured Collections section -->
+                        <a class="nav-link" href="#featuredCollections">Collections</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- LINK UPDATED to jump to Footer section -->
+                        <a class="nav-link" href="#footerSection">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Boutique</a>
+                    </li>
+                </ul>
+
+                <!-- Utility Icons (Pushed to the far right on desktop) -->
+                <div class="d-flex align-items-center mt-3 mt-lg-0 ms-lg-5">
+
+                    <!-- Search Button - ID added for JS toggle -->
+                    <button class="btn utility-icon me-2 d-flex align-items-center justify-content-center border-0"
+                        type="button" id="searchToggleButton" aria-label="Search">
+                        <i class="bi bi-search" style="font-size: 1.15rem;"></i>
+                        <span class="d-lg-none ms-2">Search</span>
+                    </button>
+
+                    <!-- Cart Button with Badge - MODIFIED with ID for custom JS Drawer -->
+                    <button
+                        class="btn utility-icon me-2 position-relative d-flex align-items-center justify-content-center border-0"
+                        type="button" id="cartToggleButton" aria-label="Cart">
+                        <i class="bi bi-bag" style="font-size: 1.15rem;"></i>
+                        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                        <span class="d-lg-none ms-2">Cart</span>
+                    </button>
+
+                    <!-- User Button - MODIFIED to open custom JS Drawer (Removed data-bs-toggle/target) -->
+                    <button class="btn utility-icon d-flex align-items-center justify-content-center border-0"
+                        type="button" id="profileToggleButton" aria-label="Account">
+                        <i class="bi bi-person" style="font-size: 1.15rem;"></i>
+                        <span class="d-lg-none ms-2">Account</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- New Search Bar Container -->
+    <div id="searchBarContainer" class="bg-dark-charcoal">
+        <div class="container">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control rounded-start" placeholder="Search by name, feature, or keyword (e.g., 'deep diver', 'gmt', 'moonphase')" aria-label="Search field">
+                <button class="btn" type="button" style="background-color: var(--luxury-gold); color: var(--dark-charcoal);">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Cart Drawer Section (Left Side) -->
+    <div id="cartDrawer" class="text-white drawer-base">
+        <!-- Drawer Header -->
+        <div class="p-4 border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+            <h5 class="font-heading mb-0" id="cartDrawerLabel" style="color: var(--luxury-gold);">SHOPPING CART</h5>
+            <button type="button" class="btn-close btn-close-white" id="cartDrawerCloseButton" aria-label="Close"></button>
+        </div>
+
+        <!-- Drawer Body -->
+        <div class="p-4 d-flex flex-column cartdrawer" style="flex-grow: 1;">
+            <div id="cartItemsContainer" class="list-group list-group-flush flex-grow-1 overflow-auto mb-4">
+                <!-- Cart items are populated by script.js -->
+            </div>
+
+            <!-- Optional Empty state placeholder (Controlled by script.js) -->
+            <div class="text-center text-white-50 py-5" id="cartEmptyState" style="display: block;">
+                Your cart is currently empty.
+            </div>
+            
+            <!-- Cart Summary and Checkout -->
+            <div class="mt-auto pt-3 border-top border-secondary border-opacity-25">
+                <div class="d-flex justify-content-between mb-3 text-uppercase">
+                    <strong style="color: var(--luxury-gold);">Subtotal:</strong>
+                    <strong style="color: var(--luxury-gold);" id="cartSubtotal">$0.00</strong>
+                </div>
+
+                <button class="btn w-100 rounded-pill py-2" type="button" id="checkoutButton"
+                    style="background-color: var(--luxury-gold); color: var(--dark-charcoal); font-weight: 700; transition: all 0.2s;">
+                    <i class="bi bi-bag-check me-2"></i> PROCEED TO CHECKOUT
+                </button>
+
+                <a href="#featuredCollections" id="cartContinueShopping" class="btn btn-outline-light w-100 rounded-pill mt-2"
+                    style="border-color: var(--luxury-gold); color: var(--luxury-gold);">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hero Carousel Section -->
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <!-- Carousel Item 1 -->
+            <div class="carousel-item active" style="max-height: 70vh; overflow: hidden;">
+                <img src="Photos/lega.jpg" class="d-block w-100 poster"
+                    alt="The Legacy Collection">
+                <div class="carousel-caption d-none d-md-block text-start">
+                    <h5 class="font-heading fs-2" style="color: var(--luxury-gold);">The Legacy Collection</h5>
+                    <p class="font-body fw-light">Discover timepieces built to last a lifetime.</p>
+                </div>
+            </div>
+            <!-- Carousel Item 2 -->
+            <div class="carousel-item" style="max-height: 70vh; overflow: hidden;">
+                <img src="Photos/minimalistnew.jpg" class="d-block w-100 poster poster2"
+                    alt="Minimalist Elegance">
+                <div class="carousel-caption d-none d-md-block text-start">
+                    <h5 class="font-heading fs-2" style="color: var(--luxury-gold);">Minimalist Elegance</h5>
+                    <p class="font-body fw-light">Sleek lines and subtle detailing for a refined look.</p>
+                </div>
+            </div>
+            <!-- Carousel Item 3 -->
+            <div class="carousel-item" style="max-height: 70vh; overflow: hidden;">
+                <img src="Photos/chronos.jpg" class="d-block w-100 poster"
+                    alt="New Arrivals: The Chronos">
+                <div class="carousel-caption d-none d-md-block text-start">
+                    <h5 class="font-heading fs-2" style="color: var(--luxury-gold);">New Arrivals: The Chronos</h5>
+                    <p class="font-body fw-light">Experience the future of mechanical precision.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Featured Collections Section - ID ADDED for navigation -->
+    <div class="container py-5" id="featuredCollections">
+        <h2 class="text-center font-heading mb-5" style="color: var(--luxury-gold);">All Timepieces</h2>
+        
+        <!-- NEW Filter Bar -->
+        <div class="d-flex justify-content-center flex-wrap gap-2 mb-5" id="filter-bar">
+             <button class="btn filter-btn active" data-category="all">All</button>
+             <button class="btn filter-btn" data-category="chronograph">Chronograph</button>
+             <button class="btn filter-btn" data-category="royal-classic">Royal Classic</button>
+             <button class="btn filter-btn" data-category="minimal-elegance">Minimal Elegance</button>
+             <button class="btn filter-btn" data-category="avant-garde">Avant-Garde</button>
+        </div>
+        
+        <!-- All 16 Product Cards are now here for filtering -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="productGridContainer">
+            
+            <!-- Chronograph Products -->
+            <div class="col product-card-column" 
+                 data-product-category="chronograph" 
+                 data-product-title="the apex racer" 
+                 data-product-keywords="caliber v32, automatic, flyback, steel bracelet, track, luminous">
+                <div class="card product-card h-100">
+                    <img src="Photos/Apex_Racer.png" class="card-img-top product-card-img" alt="Apex Racer Chronograph">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading chronograph-font">The Apex Racer</h5>
+                        <p class="card-text text-white-50 small">Caliber V32 | Automatic Flyback</p>
+                        <p class="card-text text-light">Built for the track. Features a 12-hour register and luminous sub-dials. Steel bracelet.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$5,400</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="chrono-001" 
+                                data-product-name="The Apex Racer" 
+                                data-product-price="5400.00" 
+                                data-product-img="Photos/Apex_Racer.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="chronograph" 
+                 data-product-title="the deep chronos" 
+                 data-product-keywords="deep diver, 300m water resistance, ceramic bezel, rubber strap">
+                <div class="card product-card h-100">
+                    <img src="Photos/deep diver.png" class="card-img-top product-card-img" alt="Deep Chronos Diver">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading chronograph-font">The Deep Chronos</h5>
+                        <p class="card-text text-white-50 small">Caliber Aqua C-5 | 300m Water Resistance</p>
+                        <p class="card-text text-light">A chronograph designed for the depths, featuring a ceramic bezel and rugged rubber strap.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$6,850</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="chrono-002" 
+                                data-product-name="The Deep Chronos" 
+                                data-product-price="6850.00" 
+                                data-product-img="Photos/deep diver.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="chronograph" 
+                 data-product-title="the classic officer" 
+                 data-product-keywords="vintage, hand-wound, leather strap, manual-c">
+                <div class="card product-card h-100">
+                    <img src="Photos/classic officer.png" class="card-img-top product-card-img" alt="Classic Officer Chronograph">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading chronograph-font">The Classic Officer</h5>
+                        <p class="card-text text-white-50 small">Caliber Manual-C | Hand-wound Movement</p>
+                        <p class="card-text text-light">A vintage-inspired piece with a hand-wound movement and a supple leather strap.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$3,990</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="chrono-003" 
+                                data-product-name="The Classic Officer" 
+                                data-product-price="3990.00" 
+                                data-product-img="Photos/classic officer.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="chronograph" 
+                 data-product-title="the sentinel gmt" 
+                 data-product-keywords="gmt, dual-time, travel, two time zones">
+                <div class="card product-card h-100">
+                    <img src="Photos/sentinal_gmt.png" class="card-img-top product-card-img" alt="Sentinel GMT Chronograph">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading chronograph-font">The Sentinel GMT</h5>
+                        <p class="card-text text-white-50 small">Caliber Dual-Time | Chrono + GMT</p>
+                        <p class="card-text text-light">Track two time zones while measuring elapsed time—the perfect travel companion.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$7,150</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="chrono-004" 
+                                data-product-name="The Sentinel GMT" 
+                                data-product-price="7150.00" 
+                                data-product-img="Photos/sentinal_gmt.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Royal Classic Products -->
+            <div class="col product-card-column" 
+                 data-product-category="royal-classic" 
+                 data-product-title="the sovereign date" 
+                 data-product-keywords="dress watch, automatic, gold plated, white dial, slim">
+                <div class="card product-card h-100">
+                    <img src="Photos/soverign date.png" class="card-img-top product-card-img" alt="Sovereign Date Watch">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading royal-font">The Sovereign Date</h5>
+                        <p class="card-text text-white-50 small">Automatic Caliber 88 | Gold Plated Case</p>
+                        <p class="card-text text-light">A pure dress watch with a crisp white dial and polished baton indices. Perfectly slim profile.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$2,800</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="royal-001" 
+                                data-product-name="The Sovereign Date" 
+                                data-product-price="2800.00" 
+                                data-product-img="Photos/soverign date.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="royal-classic" 
+                 data-product-title="the perpetual moon" 
+                 data-product-keywords="moonphase, complication, blue lacquer dial, pmp-20">
+                <div class="card product-card h-100">
+                    <img src="Photos/perpetual moon.png" class="card-img-top product-card-img" alt="Perpetual Moonphase">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading royal-font">The Perpetual Moon</h5>
+                        <p class="card-text text-white-50 small">Caliber PMP-20 | Moonphase Complication</p>
+                        <p class="card-text text-light">Showcasing a beautiful blue lacquer dial and an accurate, eye-catching moonphase display.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$8,950</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="royal-002" 
+                                data-product-name="The Perpetual Moon" 
+                                data-product-price="8950.00" 
+                                data-product-img="Photos/perpetual moon.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="royal-classic" 
+                 data-product-title="the regulator heritage" 
+                 data-product-keywords="regulator, separate time, complication, rg-01">
+                <div class="card product-card h-100">
+                    <img src="Photos/regular heritage.png" class="card-img-top product-card-img" alt="Regulator Heritage">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading royal-font">The Regulator Heritage</h5>
+                        <p class="card-text text-white-50 small">Caliber RG-01 | Separate Time Displays</p>
+                        <p class="card-text text-light">A rare complication, separating hours, minutes, and seconds for maximum legibility and style.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$4,250</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="royal-003" 
+                                data-product-name="The Regulator Heritage" 
+                                data-product-price="4250.00" 
+                                data-product-img="Photos/regular heritage.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="royal-classic" 
+                 data-product-title="the rose gold ultra-thin" 
+                 data-product-keywords="rose gold, ultra-thin, thin, manual-ut, dress watch">
+                <div class="card product-card h-100">
+                    <img src="Photos/rose-gold ultrathin.png" class="card-img-top product-card-img" alt="Rose Gold Ultra-Thin">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading royal-font">The Rose Gold Ultra-Thin</h5>
+                        <p class="card-text text-white-50 small">Caliber Manual-UT | 6.5mm Case Thickness</p>
+                        <p class="card-text text-light">The ultimate dress watch. Hand-finished movement in a stunningly thin rose gold case.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$9,500</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="royal-004" 
+                                data-product-name="The Rose Gold Ultra-Thin" 
+                                data-product-price="9500.00" 
+                                data-product-img="Photos/rose-gold ultrathin.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Minimal Elegance Products -->
+            <div class="col product-card-column" 
+                 data-product-category="minimal-elegance" 
+                 data-product-title="the purity 38" 
+                 data-product-keywords="quartz, stainless steel, white dial, thin, pencil hands">
+                <div class="card product-card h-100">
+                    <img src="Photos/pure white.png" class="card-img-top product-card-img" alt="The Purity 38">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading minimal-font">The Purity 38</h5>
+                        <p class="card-text text-white-50 small">Quartz Movement | Stainless Steel</p>
+                        <p class="card-text text-light">A clean white dial, pencil hands, and a thin case profile define this everyday essential.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$950</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="minimal-001" 
+                                data-product-name="The Purity 38" 
+                                data-product-price="950.00" 
+                                data-product-img="Photos/pure white.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="minimal-elegance" 
+                 data-product-title="the horizon black" 
+                 data-product-keywords="automatic, mesh bracelet, milanese, matte black, no numerals">
+                <div class="card product-card h-100">
+                    <img src="Photos/horizontal black.png" class="card-img-top product-card-img" alt="The Horizon Black">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading minimal-font">The Horizon Black</h5>
+                        <p class="card-text text-white-50 small">Automatic Caliber M21 | Mesh Bracelet</p>
+                        <p class="card-text text-light">Deep black matte dial with no numerals, paired with a sleek Milanese mesh strap.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$1,450</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="minimal-002" 
+                                data-product-name="The Horizon Black" 
+                                data-product-price="1450.00" 
+                                data-product-img="Photos/horizontal black.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="minimal-elegance" 
+                 data-product-title="the golden ratio" 
+                 data-product-keywords="ultra-thin, hand-wound, 34mm, circular, gold markers">
+                <div class="card product-card h-100">
+                    <img src="Photos/golden ratio slim.png" class="card-img-top product-card-img" alt="The Golden Ratio">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading minimal-font">The Golden Ratio</h5>
+                        <p class="card-text text-white-50 small">Ultra-Thin Hand-Wound | 34mm Diameter</p>
+                        <p class="card-text text-light">The pinnacle of subtle luxury. Its perfectly circular case and subtle gold markers follow the Golden Ratio principle.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$2,100</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="minimal-003" 
+                                data-product-name="The Golden Ratio" 
+                                data-product-price="2100.00" 
+                                data-product-img="Photos/golden ratio slim.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="minimal-elegance" 
+                 data-product-title="the midnight date" 
+                 data-product-keywords="automatic, date window, dark grey dial, 6 o'clock">
+                <div class="card product-card h-100">
+                    <img src="Photos/midnight date.png" class="card-img-top product-card-img" alt="The Midnight Date">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading minimal-font">The Midnight Date</h5>
+                        <p class="card-text text-white-50 small">Automatic Caliber 15 | Single Date Window</p>
+                        <p class="card-text text-light">A sophisticated dark grey dial with a discrete date window at the 6 o'clock position for essential functionality.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$1,680</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="minimal-004" 
+                                data-product-name="The Midnight Date" 
+                                data-product-price="1680.00" 
+                                data-product-img="Photos/midnight date.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Avant-Garde Products -->
+            <div class="col product-card-column" 
+                 data-product-category="avant-garde" 
+                 data-product-title="the orbital tourbillon" 
+                 data-product-keywords="flying tourbillon, exposed movement, titanium, asymmetrical">
+                <div class="card product-card h-100">
+                    <img src="Photos/Orbital Tourbillon.png" class="card-img-top product-card-img" alt="The Orbital Tourbillon">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading avant-garde-font">The Orbital Tourbillon</h5>
+                        <p class="card-text text-white-50 small">Flying Tourbillon | Exposed Movement</p>
+                        <p class="card-text text-light">A mesmerizing complication that defies gravity, housed in an asymmetrical case of polished titanium.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$25,000</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="avant-001" 
+                                data-product-name="The Orbital Tourbillon" 
+                                data-product-price="25000.00" 
+                                data-product-img="Photos/Orbital Tourbillon.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="avant-garde" 
+                 data-product-title="the digital genesis" 
+                 data-product-keywords="hybrid, mechanical-digital, carbon fiber, aerospace">
+                <div class="card product-card h-100">
+                    <img src="Photos/digital genesis.png" class="card-img-top product-card-img" alt="The Digital Genesis">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading avant-garde-font">The Digital Genesis</h5>
+                        <p class="card-text text-white-50 small">Hybrid Mechanical-Digital | Carbon Fiber</p>
+                        <p class="card-text text-light">Blends traditional gears with a modern digital display, encased in lightweight, aerospace-grade carbon fiber.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$18,700</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="avant-002" 
+                                data-product-name="The Digital Genesis" 
+                                data-product-price="18700.00" 
+                                data-product-img="Photos/digital genesis.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="avant-garde" 
+                 data-product-title="the skeletal horizon" 
+                 data-product-keywords="skeletonized, sapphire dial, open-worked, transparent">
+                <div class="card product-card h-100">
+                    <img src="Photos/skeleton horizon.png" class="card-img-top product-card-img" alt="The Skeletal Horizon">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading avant-garde-font">The Skeletal Horizon</h5>
+                        <p class="card-text text-white-50 small">Fully Skeletonized | Sapphire Dial</p>
+                        <p class="card-text text-light">An open-worked masterpiece where every component is visible, a true testament to transparent engineering.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$16,200</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="avant-003" 
+                                data-product-name="The Skeletal Horizon" 
+                                data-product-price="16200.00" 
+                                data-product-img="Photos/skeleton horizon.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col product-card-column" 
+                 data-product-category="avant-garde" 
+                 data-product-title="the kinetic flux" 
+                 data-product-keywords="linear time display, patented mechanism, bold design">
+                <div class="card product-card h-100">
+                    <img src="Photos/kinetic flux.png" class="card-img-top product-card-img" alt="The Kinetic Flux">
+                    <div class="card-body">
+                        <h5 class="card-title font-heading avant-garde-font">The Kinetic Flux</h5>
+                        <p class="card-text text-white-50 small">Linear Time Display | Patented Mechanism</p>
+                        <p class="card-text text-light">Breaks away from circular dials, presenting time with a unique linear progression and bold design.</p>
+                        <h4 class="text-end my-3" style="color: var(--luxury-gold);">$22,900</h4>
+                        <button class="btn product-button w-100 rounded-pill add-to-cart-btn" 
+                                onclick="addToCart(event)" 
+                                data-product-id="avant-004" 
+                                data-product-name="The Kinetic Flux" 
+                                data-product-price="22900.00" 
+                                data-product-img="Photos/kinetic flux.png">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Footer Section - ID ADDED for navigation -->
+    <footer class="bg-dark-charcoal py-5 mt-5 border-top border-secondary border-opacity-25" id="footerSection">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Column 1: Brand Info and Motto -->
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="font-heading mb-3" id="footerAura" style="color: var(--luxury-gold); font-size: 1.8rem;">
+                        WRIST AURA
+                    </h5>
+                    <p class="footer-text mb-3">Time is not measured by the clock, but by the memories it holds.</p>
+                    <p class="footer-text mb-1">
+                        <i class="bi bi-geo-alt-fill me-2" style="color: var(--luxury-gold);"></i>
+                        101 Global Watch Ave, Geneva, Switzerland
+                    </p>
+                    <p class="footer-text">
+                        <i class="bi bi-envelope-fill me-2" style="color: var(--luxury-gold);"></i>
+                        contact@wristaura.com
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="footer-heading">Collections</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="chronograph.html" class="footer-link">Chronographs</a></li>
+                        <li class="mb-2"><a href="royal-classic.html" class="footer-link">Dress Watches</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Diver Watches</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Limited Editions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Customer Service -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="footer-heading">Service</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link">Warranty</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">FAQ</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Book an Appointment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Newsletter & Social -->
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="footer-heading">Stay Informed</h6>
+                    <p class="footer-text">Subscribe to our newsletter for exclusive insights and new releases.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control newsletter-input rounded-start-pill" placeholder="Enter your email" aria-label="Email for newsletter">
+                        <button class="btn newsletter-button rounded-end-pill" type="button">Subscribe</button>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright Bar -->
+            <div class="row mt-5 pt-3 border-top border-secondary border-opacity-25">
+                <div class="col-md-6">
+                    <p class="footer-text mb-0">&copy; <span id="currentYear"></span> WRIST AURA. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="footer-link me-3">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- New Search Bar Container (From style2.css script) -->
+    <div id="searchBarContainer" class="bg-dark-charcoal">
+        <div class="container">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control rounded-start" placeholder="Search for models, movements, or features..." aria-label="Search field">
+                <button class="btn" type="button" style="background-color: var(--luxury-gold); color: var(--dark-charcoal);">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Cart Drawer Section (Left Side) -->
+    <div id="cartDrawer" class="text-white drawer-base">
+        <!-- Drawer Header -->
+        <div class="p-4 border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+            <h5 class="font-heading mb-0" id="cartDrawerLabel" style="color: var(--luxury-gold);">SHOPPING CART</h5>
+            <button type="button" class="btn-close btn-close-white" id="cartDrawerCloseButton" aria-label="Close"></button>
+        </div>
+
+        <!-- Drawer Body -->
+        <div class="p-4 d-flex flex-column cartdrawer" style="flex-grow: 1;">
+            <div id="cartItemsContainer" class="list-group list-group-flush flex-grow-1 overflow-auto mb-4">
+                <!-- Cart items are populated by script.js -->
+            </div>
+
+            <!-- Optional Empty state placeholder (Controlled by script.js) -->
+            <div class="text-center text-white-50 py-5" id="cartEmptyState" style="display: block;">
+                Your cart is currently empty.
+            </div>
+            
+            <!-- Cart Summary and Checkout -->
+            <div class="mt-auto pt-3 border-top border-secondary border-opacity-25">
+                <div class="d-flex justify-content-between mb-3 text-uppercase">
+                    <strong style="color: var(--luxury-gold);">Subtotal:</strong>
+                    <strong style="color: var(--luxury-gold);" id="cartSubtotal">$0.00</strong>
+                </div>
+
+                <button class="btn w-100 rounded-pill py-2" type="button" id="checkoutButton"
+                    style="background-color: var(--luxury-gold); color: var(--dark-charcoal); font-weight: 700; transition: all 0.2s;">
+                    <i class="bi bi-bag-check me-2"></i> PROCEED TO CHECKOUT
+                </button>
+
+                <a href="#featuredCollections" id="cartContinueShopping" class="btn btn-outline-light w-100 rounded-pill mt-2"
+                    style="border-color: var(--luxury-gold); color: var(--luxury-gold);">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Profile Drawer Section (Replaces Offcanvas) - Added drawer-base class -->
+    <div id="profileDrawer" class="text-white drawer-base">
+        <!-- Drawer Header -->
+        <div class="p-4 border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+            <h5 class="font-heading mb-0" id="profileDrawerLabel" style="color: var(--luxury-gold);">MY ACCOUNT</h5>
+            <button type="button" class="btn-close btn-close-white" id="profileDrawerCloseButton" aria-label="Close"></button>
+        </div>
+        
+        <!-- Drawer Body -->
+        <div class="p-4 d-flex flex-column" style="flex-grow: 1;">
+            <!-- User Info Card -->
+            <div class="mb-4 p-3 rounded-3"
+                style="background-color: rgba(212, 175, 55, 0.05); border: 1px solid var(--luxury-gold);">
+                <h6 class="font-body fw-bold" style="color: var(--luxury-gold);">Welcome Back, John!</h6>
+                <p class="mb-0 text-white-50 small">john.doe@example.com</p>
+            </div>
+
+            <!-- Profile Links -->
+            <!-- Using custom class 'drawer-list-item' for hover styles defined in home.css -->
+            <div class="list-group list-group-flush flex-grow-1">
+                <a href="#"
+                    class="list-group-item drawer-list-item bg-transparent text-white border-bottom border-secondary border-opacity-25 py-3">
+                    <i class="bi bi-person-circle me-3" style="color: var(--luxury-gold);"></i> Account Dashboard
+                </a>
+                <a href="#"
+                    class="list-group-item drawer-list-item bg-transparent text-white border-bottom border-secondary border-opacity-25 py-3">
+                    <i class="bi bi-box-seam me-3" style="color: var(--luxury-gold);"></i> Order History
+                </a>
+                <a href="#"
+                    class="list-group-item drawer-list-item bg-transparent text-white border-bottom border-secondary border-opacity-25 py-3">
+                    <i class="bi bi-geo-alt me-3" style="color: var(--luxury-gold);"></i> Shipping Addresses
+                </a>
+                <a href="#"
+                    class="list-group-item drawer-list-item bg-transparent text-white border-bottom border-secondary border-opacity-25 py-3">
+                    <i class="bi bi-credit-card me-3" style="color: var(--luxury-gold);"></i> Payment Methods
+                </a>
+                <a href="#" class="list-group-item drawer-list-item bg-transparent text-white py-3">
+                    <i class="bi bi-gear me-3" style="color: var(--luxury-gold);"></i> Settings & Preferences
+                </a>
+            </div>
+
+            <!-- Logout Button at the bottom -->
+            <div class="mt-auto pt-3">
+                <button class="btn w-100 rounded-pill py-2" type="button"
+                    style="background-color: var(--luxury-gold); color: var(--dark-charcoal); font-weight: 700; transition: all 0.2s;">
+                    <i class="bi bi-box-arrow-right me-2"></i> Log Out
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Profile/Cart Drawer Backdrop (Reused for both) -->
+    <div id="profileDrawerBackdrop"></div>
+
+    <!-- Order Placed Confirmation Modal -->
+    <div id="orderPlacedModal">
+        <div class="modal-content-custom">
+            <h2 class="font-heading" style="color: var(--luxury-gold);">ORDER PLACED!</h2>
+            <p class="lead mt-3 mb-0">Thank you for your purchase. Your order will be processed shortly.</p>
+            <i class="bi bi-check-circle-fill display-1 mt-3" style="color: var(--luxury-gold);"></i>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS Bundle (including Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <!-- Centralized Custom Script -->
+    <script src="script.js"></script>
+</body>
+
+</html>

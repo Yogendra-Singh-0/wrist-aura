@@ -1,0 +1,628 @@
+/* ---------------------------------- */
+/* 1. CSS VARIABLES & BASE STYLES     */
+/* (From style2.css)                  */
+/* ---------------------------------- */
+:root {
+    --dark-charcoal: #1E1E1E; /* A deep, rich dark color for background */
+    --luxury-gold: #D4AF37; /* Classic gold/brass color for accents */
+    --light-cream: #F5F5DC;
+    --mid-gray: #2A2A2A;
+    --darker-gray: #151515; /* A slightly darker shade for depth */
+    --off-white: #F5F5F5;
+}
+
+/* Global Styles */
+body {
+    background-color: var(--dark-charcoal);
+    color: var(--light-cream);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Typography Helpers (Shared) */
+.font-body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Navbar Styling */
+.bg-dark-charcoal {
+    background-color: var(--dark-charcoal) !important;
+}
+
+.navbar-brand {
+    color: var(--luxury-gold) !important;
+}
+
+.nav-link {
+    color: var(--light-cream) !important;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--luxury-gold) !important;
+}
+
+/* Utility Icons (Cart, User) */
+.utility-icon {
+    color: var(--light-cream);
+    transition: color 0.2s, transform 0.2s;
+}
+
+.utility-icon:hover {
+    color: var(--luxury-gold);
+    transform: scale(1.05);
+}
+
+/* Cart Badge Style */
+.cart-badge {
+    background-color: var(--luxury-gold);
+    color: var(--dark-charcoal);
+    font-size: 0.6rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.35em 0.65em;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transform: translate(25%, -25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------------------------------- */
+/* 2. COLLECTION-SPECIFIC STYLES      */
+/* (From style2.css)                  */
+/* ---------------------------------- */
+
+/* Avant-Garde Overrides */
+.font-heading.avant-garde-font {
+    font-family: 'Montserrat', sans-serif; 
+    letter-spacing: 2.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.hero-avantgarde {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
+                      url("Photos/avant\\ background.png");
+    background-size: cover; /* Added for consistency */
+    background-position: center; /* Added for consistency */
+    border-bottom: 3px solid var(--luxury-gold);
+}
+.cta-avantgarde {
+    background-color: var(--darker-gray);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+/* Chronograph Master Overrides */
+.font-heading.chronograph-font {
+    font-family: Georgia, serif;
+    letter-spacing: 1px;
+}
+.hero-chronograph {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                      url("Photos/chronograph_masters.png");
+    background-size: cover; /* Added for consistency */
+    background-position: center; /* Added for consistency */
+    border-bottom: 3px solid var(--luxury-gold);
+}
+.cta-chronograph {
+    background-color: #242424;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+
+/* Minimal Elegance Overrides */
+.font-heading.minimal-font {
+    font-family: 'Inter', sans-serif; 
+    letter-spacing: 2px;
+    font-weight: 200;
+}
+.hero-minimal {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                      url("Photos/elegant\\ background.png");
+    background-size: cover; /* Added for consistency */
+    background-position: center; /* Added for consistency */
+    padding: 8rem 0;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
+}
+.cta-minimal {
+    background-color: #242424;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Royal Classic Overrides */
+.font-heading.royal-font {
+    font-family: 'Times New Roman', serif; 
+    letter-spacing: 1.5px;
+}
+.hero-royal {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                      url("Photos/royal\\ background.png");
+    background-size: cover; /* Added for consistency */
+    background-position: center; /* Added for consistency */
+    padding: 6rem 0;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.5); 
+}
+.cta-royal {
+    background-color: #242424;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+
+/* ---------------------------------- */
+/* 3. PRODUCT CARD STYLING (SHARED)   */
+/* (From style2.css)                  */
+/* ---------------------------------- */
+.product-card {
+    background-color: var(--mid-gray) !important;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.product-card-img {
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.product-card:hover .product-card-img {
+    transform: scale(1.05);
+}
+
+.product-card .card-title {
+    color: var(--luxury-gold);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.product-button {
+    background-color: var(--luxury-gold);
+    color: var(--dark-charcoal);
+    font-weight: 700;
+    transition: background-color 0.2s;
+    border: none;
+}
+
+.product-button:hover {
+    background-color: #c09f30;
+    color: var(--dark-charcoal);
+}
+
+.feature-icon {
+    color: var(--luxury-gold);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Footer links */
+.footer-link {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: var(--luxury-gold);
+}
+
+/* ---------------------------------- */
+/* 4. FILTER/DRAWER STYLES (SHARED)   */
+/* (From style2.css)                  */
+/* ---------------------------------- */
+
+/* NEW: Filter Button Styles */
+.filter-btn {
+    background-color: transparent;
+    border: 1px solid var(--luxury-gold);
+    color: var(--luxury-gold);
+    font-weight: 500;
+    border-radius: 999px; /* pill shape */
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.filter-btn:hover {
+    background-color: rgba(212, 175, 55, 0.1);
+    color: var(--luxury-gold);
+}
+
+.filter-btn.active {
+    background-color: var(--luxury-gold);
+    color: var(--dark-charcoal);
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+/* End of New Filter Button Styles */
+
+
+/* Base styles shared by both Cart and Profile drawers */
+.drawer-base {
+    position: fixed;
+    top: 0;
+    width: 380px; 
+    max-width: 90vw; 
+    height: 100%;
+    z-index: 1050; 
+    background-color: var(--dark-charcoal);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    color: var(--off-white);
+}
+
+.drawer-base.open {
+    transform: translateX(0) !important; 
+}
+
+#profileDrawer {
+    right: 0;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    transform: translateX(100%); 
+}
+
+#cartDrawer {
+    left: 0;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+    transform: translateX(-100%); 
+}
+
+#profileDrawerBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1045; 
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+}
+
+#profileDrawerBackdrop.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.list-group-item.drawer-list-item:hover {
+    color: var(--luxury-gold) !important;
+    background-color: rgba(212, 175, 55, 0.1) !important;
+}
+
+#searchBarContainer {
+    background-color: #2c2c2c;
+    border-bottom: 2px solid var(--luxury-gold);
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+#searchBarContainer.active {
+    max-height: 80px; 
+    opacity: 1;
+    padding: 1rem 0;
+}
+
+/* Order Placement Modal */
+#orderPlacedModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#orderPlacedModal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content-custom {
+    background-color: var(--dark-charcoal);
+    border: 3px solid var(--luxury-gold);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    max-width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+    animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------------------------------- */
+/* STYLES FROM home.css               */
+/* ---------------------------------- */
+
+/* Custom Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap');
+
+/* Define Custom Colors */
+:root {
+    --dark-charcoal: #1A1A1A;
+    --luxury-gold: #D4AF37;
+    /* A sophisticated gold */
+    --off-white: #F5F5F5;
+}
+
+/* Custom Backgrounds */
+.bg-dark-charcoal {
+    background-color: var(--dark-charcoal) !important;
+}
+
+/* Font Styling */
+.font-heading {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.15em;
+}
+
+.font-body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Set base styles */
+body {
+   
+    background-color: #111827; /* This will override the body background from style2.css */
+    font-family: 'Inter', sans-serif;
+    color: var(--off-white);
+}
+
+/* Override Bootstrap link colors for the luxury gold effect */
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand {
+    color: var(--off-white);
+    transition: color 0.2s, border-color 0.2s;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-brand:hover {
+    color: var(--luxury-gold);
+    /* Gold hover color */
+}
+
+#wristAura {
+    font-size: 25px;
+}
+
+/* Active link style using gold border/underline for desktop (lg breakpoint and up) */
+@media (min-width: 992px) {
+    #wristAura {
+        font-size: 25px;
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        border-bottom: 2px solid transparent;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:hover {
+        border-color: var(--luxury-gold);
+    }
+}
+
+/* Utility Icons/Buttons */
+.utility-icon {
+    color: var(--off-white);
+    transition: color 0.2s, background-color 0.2s;
+    padding: 0.65rem;
+    border-radius: 0.5rem;
+    /* Slightly rounded corners for buttons */
+}
+
+.utility-icon:hover {
+    color: var(--luxury-gold);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Cart Badge Style */
+/* This will override the .cart-badge from style2.css */
+.cart-badge {
+    background-color: var(--luxury-gold);
+    color: var(--dark-charcoal);
+    font-size: 0.6rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.35em 0.65em;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transform: translate(25%, -25%);
+}
+
+/* Style the Toggler icon to be gold on hover/focus */
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.5);
+    /* Gold ring */
+}
+
+/* Custom Footer Styles */
+.footer-link,
+.footer-text {
+    color: rgba(255, 255, 255, 0.7);
+    /* Light text for contrast */
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: var(--luxury-gold);
+    text-decoration: none;
+}
+
+.footer-heading {
+    color: var(--luxury-gold);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.social-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: var(--off-white);
+    transition: color 0.2s;
+}
+
+.social-icon:hover {
+    color: var(--luxury-gold);
+}
+
+/* Newsletter form styling */
+.newsletter-input {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: var(--off-white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.newsletter-input:focus {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--luxury-gold);
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    color: var(--off-white);
+}
+
+.newsletter-button {
+    background-color: var(--luxury-gold);
+    color: var(--dark-charcoal);
+    font-weight: 700;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.newsletter-button:hover {
+    background-color: #e6c567;
+    /* Slightly lighter gold */
+}
+
+/* --- DRAWER STYLES (Refactored to minimize repetition) --- */
+
+/* Base styles shared by both Cart and Profile drawers */
+.drawer-base {
+    position: fixed;
+    top: 0;
+    width: 380px; /* Same max-width as the original offcanvas */
+    max-width: 90vw; /* Responsive safety */
+    height: 100%;
+    z-index: 1050; /* Above navbar (1040) */
+    background-color: var(--dark-charcoal);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    color: var(--off-white);
+}
+
+.drawer-base.open {
+    transform: translateX(0) !important; /* Slide into view */
+}
+
+/* Profile Drawer (Right-aligned) Specifics */
+#profileDrawer {
+    right: 0;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    transform: translateX(100%); /* Start off-screen to the right */
+}
+
+/* Cart Drawer (Left-aligned) Specifics */
+#cartDrawer {
+    left: 0;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+    transform: translateX(-100%); /* Start off-screen to the left */
+}
+
+/* Custom Backdrop/Overlay (Reused for both) */
+#profileDrawerBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1045; /* Below drawer, above content */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+}
+
+#profileDrawerBackdrop.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Adapting Offcanvas list item styles for the new drawer */
+.list-group-item.drawer-list-item:hover {
+    color: var(--luxury-gold) !important;
+    background-color: rgba(212, 175, 55, 0.1) !important;
+}
+
+.list-group-item {
+    cursor: pointer;
+}
+
+.poster{
+    object-fit: cover;
+    height: 107vh;
+}
+.poster2{
+    object-fit: cover;
+    height: 93vh;
+}
+#searchBarContainer {
+    background-color: #2c2c2c;
+    border-bottom: 2px solid var(--luxury-gold);
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+#searchBarContainer.active {
+    max-height: 80px; /* Adjust based on content height */
+    opacity: 1;
+    padding: 1rem 0;
+}
+.add-to-cart-btn{
+    position: relative;
+    bottom: 0;
+}
