@@ -1,17 +1,11 @@
-// --- Configuration & Cart Storage ---
 const CART_STORAGE_KEY = 'wristAuraCart';
-const USER_STORAGE_KEY = 'wristAuraUser'; // Key for simple login
+const USER_STORAGE_KEY = 'wristAuraUser';
 
-// --- Global Filter State ---
-// Holds the current state of filters on the home page
 const filterState = {
     searchQuery: '',
     category: 'all'
 };
 
-// --- Cart Logic ---
-
-/** Retrieves the current cart from local storage. */
 function getCart() {
     try {
         const cartJson = localStorage.getItem(CART_STORAGE_KEY);
@@ -22,7 +16,6 @@ function getCart() {
     }
 }
 
-/** Saves the cart to local storage. */
 function saveCart(cart) {
     try {
         localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
@@ -31,10 +24,6 @@ function saveCart(cart) {
     }
 }
 
-/**
- * Adds an item to the cart or increments its quantity.
- * @param {Event} event The click event or mock event object.
- */
 function addToCart(event) {
     const button = event.target.closest('.add-to-cart-btn') || event.target.closest('[data-product-id]');
     if (!button) return;
@@ -62,13 +51,11 @@ function addToCart(event) {
     renderCart();
     updateCartBadge();
     
-    // Open the cart drawer after initial add
     if (event.target.closest('.add-to-cart-btn') && typeof toggleCartDrawer === 'function') {
         toggleCartDrawer(true);
     }
 }
 
-/** Removes an item completely from the cart. */
 function removeFromCart(id) {
     let cart = getCart();
     cart = cart.filter(item => item.id !== id);
@@ -77,7 +64,6 @@ function removeFromCart(id) {
     updateCartBadge();
 }
 
-/** Decrements the quantity of an item in the cart. */
 function decrementQuantity(id) {
     let cart = getCart();
     const existingItemIndex = cart.findIndex(item => item.id === id);
@@ -93,7 +79,6 @@ function decrementQuantity(id) {
     }
 }
 
-/** Updates the cart badge count and subtotal. */
 function updateCartBadge() {
     const cart = getCart();
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -118,7 +103,6 @@ function updateCartBadge() {
     }
 }
 
-/** Renders the cart contents into the cart drawer. */
 function renderCart() {
     const cart = getCart();
     const cartBody = document.getElementById('cartItemsContainer');
@@ -169,39 +153,26 @@ function renderCart() {
     });
 }
 
-// --- Search/Filter Logic for Home Page ---
-
-/**
- * Handles the search input. 
- * Redirects to home page if not on it, or applies filters if on home page.
- */
 function performSearch() {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput) return;
 
     const query = searchInput.value.trim().toLowerCase();
     
-    // Only proceed with client-side filtering if on home page
     if (document.title.includes('Wrist Aura | Luxury Timepieces')) {
         filterState.searchQuery = query;
         applyFilters();
     } else if (query) {
-        // Redirect to home.html with the query parameter if on a collection page
         toggleSearchBar(false);
         window.location.href = `home.html?search=${encodeURIComponent(query)}`;
     }
 }
 
-/**
- * Handles the category filter button clicks.
- * @param {string} category - The category to filter by (e.g., 'all', 'chronograph').
- */
 function filterByCategory(category) {
     if (typeof category !== 'string') return;
     
     filterState.category = category.toLowerCase();
     
-    // Update active button state
     document.querySelectorAll('.filter-btn').forEach(btn => {
         if (btn.dataset.category.toLowerCase() === filterState.category) {
             btn.classList.add('active');
@@ -213,13 +184,9 @@ function filterByCategory(category) {
     applyFilters();
 }
 
-/**
- * The main filter function. 
- * Reads from filterState and shows/hides product cards on the home page.
- */
 function applyFilters() {
     const cardsContainer = document.getElementById('productGridContainer');
-    if (!cardsContainer) return; // Only run on home page
+    if (!cardsContainer) return;
 
     const cards = cardsContainer.querySelectorAll('.product-card-column');
     const query = filterState.searchQuery;
@@ -231,16 +198,13 @@ function applyFilters() {
         const keywords = col.dataset.productKeywords || '';
         const cardCategory = col.dataset.productCategory || '';
         
-        // Category Check
         const categoryMatch = (category === 'all' || cardCategory === category);
         
-        // Search Query Check
         const searchMatch = (query === '' || 
                              title.includes(query) || 
                              keywords.includes(query) ||
-                             cardCategory.includes(query)); // Also check category in search
+                             cardCategory.includes(query));
         
-        // Final visibility
         if (categoryMatch && searchMatch) {
             col.style.display = 'block';
             foundCount++;
@@ -249,10 +213,9 @@ function applyFilters() {
         }
     });
     
-    // Display search results message
     const featuredCollectionsHeading = document.querySelector('#featuredCollections h2');
     const previousMessage = document.getElementById('search-result-message');
-    if (previousMessage) previousMessage.remove(); // Clear old message
+    if (previousMessage) previousMessage.remove();
 
     if (featuredCollectionsHeading) {
         const message = document.createElement('div');
@@ -277,21 +240,15 @@ function applyFilters() {
             message.innerHTML = `<p class="lead fw-light" style="color: var(--luxury-gold);">${messageText}</p>`;
             featuredCollectionsHeading.parentNode.insertBefore(message, featuredCollectionsHeading.nextSibling);
             
-            // Scroll to the results area if a query or filter was entered
-            if(query) { // Only scroll if search was used
+            if(query) {
                 document.getElementById('searchBarContainer').scrollIntoView({ behavior: 'smooth' });
             }
         } else if (query === '' && category === 'all') {
-             // If filters are cleared, scroll back to top of section
              featuredCollectionsHeading.scrollIntoView({ behavior: 'smooth' });
         }
     }
 }
 
-
-// --- Drawer and Utility Control Logic ---
-
-// Get DOM references (Note: these assume the elements exist in the linked HTML files)
 const searchToggleButton = document.getElementById('searchToggleButton');
 const searchBarContainer = document.getElementById('searchBarContainer');
 const profileToggleButton = document.getElementById('profileToggleButton');
@@ -323,7 +280,6 @@ function toggleProfileDrawer(show) {
 
 function toggleCartDrawer(show) {
     if (show) {
-        // Ensure cart is rendered before opening
         renderCart();
         updateCartBadge(); 
         
@@ -353,9 +309,6 @@ function toggleSearchBar(show) {
     }
 }
 
-// --- NEW Login/Profile Logic ---
-
-/** Checks local storage for user data and updates the profile drawer UI. */
 function checkLoginState() {
     try {
         const userJson = localStorage.getItem(USER_STORAGE_KEY);
@@ -368,11 +321,10 @@ function checkLoginState() {
         }
     } catch (e) {
         console.error("Error checking login state:", e);
-        showLoginView(); // Default to logged out if error
+        showLoginView();
     }
 }
 
-/** Displays the login form in the profile drawer. */
 function showLoginView() {
     const loginView = document.getElementById('loginFormView');
     const dashboardView = document.getElementById('dashboardView');
@@ -381,14 +333,13 @@ function showLoginView() {
     if (dashboardView) dashboardView.style.display = 'none';
 }
 
-/** Displays the user dashboard in the profile drawer. */
 function showDashboardView(user) {
     const loginView = document.getElementById('loginFormView');
     const dashboardView = document.getElementById('dashboardView');
     const userInfoCard = document.getElementById('userInfoCard');
 
     if (dashboardView) {
-        dashboardView.style.display = 'flex'; // Use flex to respect layout
+        dashboardView.style.display = 'flex';
     }
     if (loginView) loginView.style.display = 'none';
     
@@ -400,7 +351,6 @@ function showDashboardView(user) {
     }
 }
 
-/** Handles the login button click event. */
 function handleLogin(event) {
     event.preventDefault();
     const nameInput = document.getElementById('loginName');
@@ -410,25 +360,21 @@ function handleLogin(event) {
     const email = emailInput ? emailInput.value.trim() : '';
     
     if (name && email) {
-        // Basic validation for presence
         const user = { name: name, email: email };
         
         try {
             localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
             showDashboardView(user);
-            // Clear fields after login
             if (nameInput) nameInput.value = '';
             if (emailInput) emailInput.value = '';
         } catch (e) {
             console.error("Error saving user to localStorage:", e);
         }
     } else {
-        // In a real app, show error message
         console.warn("Name and Email are required.");
     }
 }
 
-/** Handles the logout button click event. */
 function handleLogout(event) {
     event.preventDefault();
     try {
@@ -439,7 +385,6 @@ function handleLogout(event) {
     }
 }
 
-/** Utility function to escape HTML for security. */
 function escapeHTML(str) {
   return str.replace(/[&<>"']/g, function(match) {
     return {
@@ -452,25 +397,20 @@ function escapeHTML(str) {
   });
 }
 
-// --- Order Placement Logic ---
 function placeOrder() {
     const cart = getCart();
     if (cart.length === 0) return;
 
-    // 1. Close cart drawer
     toggleCartDrawer(false);
     
-    // 2. Show confirmation modal
     if (orderPlacedModal) {
         orderPlacedModal.classList.add('show');
     }
     
-    // 3. Clear cart (frontend only)
     localStorage.removeItem(CART_STORAGE_KEY);
-    renderCart(); // Clear UI
-    updateCartBadge(); // Update badge
+    renderCart();
+    updateCartBadge();
 
-    // 4. Hide modal after 3 seconds
     setTimeout(() => {
         if (orderPlacedModal) {
             orderPlacedModal.classList.remove('show');
@@ -478,48 +418,37 @@ function placeOrder() {
     }, 3000); 
 }
 
-// --- Home Page Search Results Display ---
 function checkUrlForSearchQuery() {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('search');
     
     if (query && document.title.includes('Wrist Aura | Luxury Timepieces')) {
-        // Only run on the home page
         const decodedQuery = decodeURIComponent(query);
-        // Set the input field value and immediately perform the filter
         const searchInput = document.getElementById('searchInput');
         if (searchInput) searchInput.value = decodedQuery;
         
         filterState.searchQuery = decodedQuery.toLowerCase();
-        applyFilters(); // Use the main filter function
+        applyFilters();
     }
 }
 
-
-// --- Event Listeners and Initializers ---
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if on home page and filter based on URL query parameter
     checkUrlForSearchQuery();
     
-    // Set the current year in the footer (If the element exists)
     const currentYearElement = document.getElementById('currentYear');
     if (currentYearElement) {
         currentYearElement.textContent = new Date().getFullYear();
     }
     
-    // Initial UI updates
     updateCartBadge();
-    checkLoginState(); // Check login status on page load
+    checkLoginState();
     
-    // Wire up search toggle
     if (searchToggleButton && searchBarContainer) {
         searchToggleButton.addEventListener('click', () => {
             toggleSearchBar(!searchBarContainer.classList.contains('active'));
         });
     }
 
-    // Wire up the SEARCH BUTTON (magnifying glass)
     const searchButton = searchBarContainer ? searchBarContainer.querySelector('.btn') : null;
     if (searchButton) {
         searchButton.addEventListener('click', (e) => {
@@ -528,18 +457,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Wire up the ENTER key on the input field
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent accidental form submission/page reload
+                event.preventDefault();
                 performSearch();
             }
         });
     }
     
-    // Wire up FILTER BUTTONS (Home Page only)
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const category = e.target.dataset.category;
@@ -547,12 +474,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-    // Wire up Profile drawer controls
     if (profileToggleButton && profileDrawer) profileToggleButton.addEventListener('click', () => toggleProfileDrawer(true));
     if (profileDrawerCloseButton && profileDrawer) profileDrawerCloseButton.addEventListener('click', () => toggleProfileDrawer(false));
     
-    // Wire up new Login/Logout buttons
     const loginButton = document.getElementById('loginButton');
     const logoutButton = document.getElementById('logoutButton');
     
@@ -563,11 +487,9 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutButton.addEventListener('click', handleLogout);
     }
 
-    // Wire up Cart drawer controls
     if (cartToggleButton && cartDrawer) cartToggleButton.addEventListener('click', () => toggleCartDrawer(true));
     if (cartDrawerCloseButton && cartDrawer) cartDrawerCloseButton.addEventListener('click', () => toggleCartDrawer(false));
     
-    // Wire up shared backdrop click
     if (profileDrawerBackdrop) {
         profileDrawerBackdrop.addEventListener('click', () => { 
             toggleProfileDrawer(false); 
@@ -575,12 +497,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Wire up checkout button
     if (checkoutButton) {
         checkoutButton.addEventListener('click', placeOrder);
     }
 
-    // Close on escape key press
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             if (profileDrawer && profileDrawer.classList.contains('open')) toggleProfileDrawer(false);
@@ -590,10 +510,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Placeholder images fallbacks
     document.querySelectorAll('img').forEach(img => {
         img.onerror = function() {
-            // Use a reliable placeholder service
             const placeholderWidth = this.width > 0 ? this.width : 600;
             const placeholderHeight = this.height > 0 ? this.height : 400;
             this.src = `https://placehold.co/${placeholderWidth}x${placeholderHeight}/1E1E1E/D4AF37?text=Watch+Image`;
