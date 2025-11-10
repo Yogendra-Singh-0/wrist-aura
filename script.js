@@ -1,5 +1,6 @@
 // --- Configuration & Cart Storage ---
 const CART_STORAGE_KEY = 'wristAuraCart';
+const USER_STORAGE_KEY = 'wristAuraUser'; // Key for simple login
 
 // --- Global Filter State ---
 // Holds the current state of filters on the home page
@@ -108,7 +109,7 @@ function updateCartBadge() {
     }
     
     if (subtotalElement) {
-        subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+        subtotalElement.textContent = `Rs. ${subtotal.toFixed(2)}`;
     }
 
     if (checkoutButton) {
@@ -142,7 +143,7 @@ function renderCart() {
                      onerror="this.onerror=null;this.src='https://placehold.co/60x60/1E1E1E/D4AF37?text=Watch'">
                 <div class="flex-grow-1">
                     <h6 class="mb-0 text-white">${item.name}</h6>
-                    <p class="mb-0 small text-white-50">$${item.price.toFixed(2)}</p>
+                    <p class="mb-0 small text-white-50">Rs. ${item.price.toFixed(2)}</p>
                 </div>
                 <div class="d-flex align-items-center ms-3">
                     <button class="btn btn-sm text-white-50 p-1" onclick="decrementQuantity('${item.id}')" aria-label="Decrease quantity">
@@ -352,6 +353,105 @@ function toggleSearchBar(show) {
     }
 }
 
+// --- NEW Login/Profile Logic ---
+
+/** Checks local storage for user data and updates the profile drawer UI. */
+function checkLoginState() {
+    try {
+        const userJson = localStorage.getItem(USER_STORAGE_KEY);
+        const user = userJson ? JSON.parse(userJson) : null;
+        
+        if (user && user.name && user.email) {
+            showDashboardView(user);
+        } else {
+            showLoginView();
+        }
+    } catch (e) {
+        console.error("Error checking login state:", e);
+        showLoginView(); // Default to logged out if error
+    }
+}
+
+/** Displays the login form in the profile drawer. */
+function showLoginView() {
+    const loginView = document.getElementById('loginFormView');
+    const dashboardView = document.getElementById('dashboardView');
+    
+    if (loginView) loginView.style.display = 'block';
+    if (dashboardView) dashboardView.style.display = 'none';
+}
+
+/** Displays the user dashboard in the profile drawer. */
+function showDashboardView(user) {
+    const loginView = document.getElementById('loginFormView');
+    const dashboardView = document.getElementById('dashboardView');
+    const userInfoCard = document.getElementById('userInfoCard');
+
+    if (dashboardView) {
+        dashboardView.style.display = 'flex'; // Use flex to respect layout
+    }
+    if (loginView) loginView.style.display = 'none';
+    
+    if (userInfoCard && user) {
+        userInfoCard.innerHTML = `
+            <h6 class="font-body fw-bold" style="color: var(--luxury-gold);">Welcome Back, ${escapeHTML(user.name)}!</h6>
+            <p class="mb-0 text-white-50 small">${escapeHTML(user.email)}</p>
+        `;
+    }
+}
+
+/** Handles the login button click event. */
+function handleLogin(event) {
+    event.preventDefault();
+    const nameInput = document.getElementById('loginName');
+    const emailInput = document.getElementById('loginEmail');
+    
+    const name = nameInput ? nameInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
+    
+    if (name && email) {
+        // Basic validation for presence
+        const user = { name: name, email: email };
+        
+        try {
+            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+            showDashboardView(user);
+            // Clear fields after login
+            if (nameInput) nameInput.value = '';
+            if (emailInput) emailInput.value = '';
+        } catch (e) {
+            console.error("Error saving user to localStorage:", e);
+        }
+    } else {
+        // In a real app, show error message
+        console.warn("Name and Email are required.");
+    }
+}
+
+/** Handles the logout button click event. */
+function handleLogout(event) {
+    event.preventDefault();
+    try {
+        localStorage.removeItem(USER_STORAGE_KEY);
+        showLoginView();
+    } catch (e) {
+        console.error("Error logging out:", e);
+    }
+}
+
+/** Utility function to escape HTML for security. */
+function escapeHTML(str) {
+  return str.replace(/[&<>"']/g, function(match) {
+    return {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[match];
+  });
+}
+
 // --- Order Placement Logic ---
 function placeOrder() {
     const cart = getCart();
@@ -410,6 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initial UI updates
     updateCartBadge();
+    checkLoginState(); // Check login status on page load
     
     // Wire up search toggle
     if (searchToggleButton && searchBarContainer) {
@@ -451,6 +552,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (profileToggleButton && profileDrawer) profileToggleButton.addEventListener('click', () => toggleProfileDrawer(true));
     if (profileDrawerCloseButton && profileDrawer) profileDrawerCloseButton.addEventListener('click', () => toggleProfileDrawer(false));
     
+    // Wire up new Login/Logout buttons
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    
+    if (loginButton) {
+        loginButton.addEventListener('click', handleLogin);
+    }
+    if (logoutButton) {
+        logoutButton.addEventListener('click', handleLogout);
+    }
+
     // Wire up Cart drawer controls
     if (cartToggleButton && cartDrawer) cartToggleButton.addEventListener('click', () => toggleCartDrawer(true));
     if (cartDrawerCloseButton && cartDrawer) cartDrawerCloseButton.addEventListener('click', () => toggleCartDrawer(false));
@@ -481,7 +593,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Placeholder images fallbacks
     document.querySelectorAll('img').forEach(img => {
         img.onerror = function() {
-            this.src = `https://placehold.co/${this.width || 600}x${this.height || 400}/1E1E1E/D4AF37?text=Watch+Image`;
+            // Use a reliable placeholder service
+            const placeholderWidth = this.width > 0 ? this.width : 600;
+            const placeholderHeight = this.height > 0 ? this.height : 400;
+            this.src = `https://placehold.co/${placeholderWidth}x${placeholderHeight}/1E1E1E/D4AF37?text=Watch+Image`;
         };
     });
 });
